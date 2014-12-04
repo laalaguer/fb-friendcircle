@@ -4,7 +4,7 @@ fb-friendcircle
 Facebook API Personal Project.
 ------------------------------
 
-Online Demo at [a link](http://fb-friendcircle.appspot.com/)
+Online Demo at [This link hosted on Google App Engine](http://fb-friendcircle.appspot.com/)
 
 Features
 --------
