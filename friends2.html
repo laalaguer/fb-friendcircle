@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>This is The Friend Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+	
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR OWN GOOGLE MAP KEY&sensor=false&libraries=places"></script>
+
+    <style>
+    #map {
+       	 		height: 400px;
+       			width: 800px;
+        		border: 5px solid #333;
+     	}
+    </style>
+    {% if current_user %}
+  
+    <script>
+      	var map;
+	  	function initialize()
+	  	{
+	  
+	 	 	var home = new google.maps.LatLng( 48.85661,2.35222);
+        	map = new google.maps.Map(document.getElementById('map'), {
+          	mapTypeId: google.maps.MapTypeId.ROADMAP,
+          	center: home,
+          	zoom: 2
+        	});
+		
+		 	center_paris_marker = new google.maps.Marker({
+          	map:map,
+          	animation: google.maps.Animation.DROP,
+          	position: home
+        	});
+		 	// Make the Entire Dots for Maps:
+		 	var locations = [
+		 	    {% if friends_list %}
+		 	        {% for f in friends_list -%}
+		 	           		{{ "['" }}{{ f.name }} {{ "'," }}	
+		 	           		{{ "'" }}{{ f.current_location.name }} {{ "'," }}
+		 	           		{{ f.current_location.latitude }} {{ "," }}
+		 	           		{{ f.current_location.longitude }} {{ "," }}
+		 	           		{{ "'" }}{{ f.pic_square }}{{ "'" }}{{ "," }}
+		 	           		{{ "'" }}{{ f.profile_url }}{{ "'" }}
+		 	           		{%- if loop.last -%}
+		 	           			{{ ']' }}
+		 	           		{% else %}
+		 	           			{{ '],' }}
+		 	           		{% endif %}
+		 	        {%- endfor -%}
+		 	    {% endif %}		 	                 
+		 	];
+		 	
+		 	var infowindow = new google.maps.InfoWindow();
+		 	var marker, i;
+		 	for (i = 0; i < locations.length; i++){
+		 		marker = new google.maps.Marker({
+		 			position: new google.maps.LatLng(locations[i][2], locations[i][3]),
+		 	        map: map
+		 		});
+			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+			        return function() {
+			          var img = '<img style="float:left; "src="'+locations[i][4]+'"/>';
+			          var link = '<a href="'+locations[i][5]+'">'+'View His/Her Profile'+'</a>'
+			          infowindow.setContent(img +locations[i][0]+" <br> "+locations[i][1]+ " <br> "+ link);
+			          infowindow.open(map, marker);
+			        }
+			    })(marker, i));
+		 	}
+      	}
+	  	
+      	google.maps.event.addDomListener(window, 'load', initialize);
+      	
+      	
+      	function pageReload(){
+      		window.location.reload();
+      	}
+    	</script>
+    	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    	<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Gender', 'Count'],
+          ['Male',     {{ male }}],
+          ['Female',    {{ female }}]
+        ]);
+
+        var options = {
+          title: 'My Friends are Composed of: '
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+  		<div>
+  			<label>These are the random 100 friends</label>
+  			<input type="submit" value="Another 100/换一批" onclick="pageReload()"/> 
+  		</div>
+  		<div style="width:800px;">
+        	{% for f in friends_list %}
+        		<p style="float:left;">
+        		<a href="{{ f.profile_url }}"><img src="{{ f.pic_square }}"></a>
+        		</p>
+        	{% endfor %}
+        </div>      
+        <div>
+        	<label>Goole Maps API</label>
+        	<a href="https://developers.google.com/maps/location-based-apps">reference here</a>
+        	<div id="map"></div>
+        </div>
+        <div>
+        	<div id="chart_div" style="width: 350px; height: 300px;float:left;"></div>
+        </div>
+        
+    {% else %}
+    {% endif %}
+ 
+  </body>
+</html>

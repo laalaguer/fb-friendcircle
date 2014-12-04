@@ -1,0 +1,106 @@
+<a href="/showfriends/">Jump to show friends</a>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 lt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7 lt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8 lt8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="NAF: Part2 Demo" />
+    <meta name="author" content="Xiqing Chu" />
+    <title>Facebook Example</title>
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+  </head>
+  <body>
+  	<div class="container">
+        <header>
+           <h1>Welcome To <span>Facebook Helper</span></h1>
+        </header>
+        <section>
+        	<div id="container_demo" >
+        		<div id="wrapper">
+        			<div id="login" class="animate form">
+        				<h1>Demo 2</h1>
+        				<p>        					
+        					{% if current_user %}
+      						<a href="{{ current_user.profile_url }}"><img src="http://graph.facebook.com/{{ current_user.id }}/picture?type=square"/></a>
+      						Hello, {{ current_user.name|escape }}
+      						{% endif %}
+      						<fb:login-button autologoutlink="true" scope="publish_stream,friends_location,friends_hometown"></fb:login-button>
+        				</p>
+
+      					<div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({appId: '{{ facebook_app_id }}', status: true, cookie: true,
+                 xfbml: true});
+        FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
+          {% if current_user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
+        });
+      };
+      (function() {
+        var e = document.createElement('script');
+        e.type = 'text/javascript';
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+      }());
+    </script>      					
+      					{% if current_user %}
+      					<!-- This is upload pic by url -->
+      					<form method="post" action="/postimgurl">      					
+      					<p>
+      						<label id="imgurllabel" for="imgurl" class="url" data-icon="u"> Upload Photo By URL </label>
+                            <input id="url" name="url" required="required" type="text" placeholder="http://a.com/abc.jpg"/>
+                        </p>
+                        <p>    
+                            <label id="picdescriptlabel" for="pic_info" class="picinfo" data-icon="e"> Description of Picture </label>
+                            <input id="pic_info" name="pic_info" type="text" placeholder="This is my Cat's picture!"/>
+      					</p>
+      					<p class="login button"> 
+                          	<input type="submit" value="Upload To FB"/>
+						</p>
+						</form>
+						
+						
+						<!-- This is upload pic by fetch local pic on computer -->
+						<form method="post" action="/postimgfile" enctype="multipart/form-data" >      					
+      					<p>
+      						<label id="imgurllabel" for="imgurl" class="url" data-icon="u"> Select img from computer </label>
+                            <input id="img" name="img" type="file"/>
+                        </p>
+                        <p>    
+                            <label id="picdescriptlabel" for="pic_info" class="picinfo" data-icon="e"> Description of Picture </label>
+                            <input id="pic_info" name="pic_info" type="text" placeholder="This is my Cat's picture!"/>
+      					</p>
+      					<p class="login button"> 
+                          	<input type="submit" value="Upload To FB"/>
+						</p>
+						</form>
+						
+						
+						<!-- Post Message to FB -->
+						<form method="post" action="/posttext">      					
+      					<p>
+      						<label id="textlabel" for="chat_info" class="textpost" data-icon="u"> Enter Text to your timeline! </label>
+                            <input id="chat_info" name="chat_info" required="required" type="text" placeholder="What a fine day!"/>
+                        </p>
+      					<p class="login button"> 
+                          	<input type="submit" value="Post to FB"/>
+						</p>
+						</form>
+    					{% endif %}
+    					<p class="change_link">
+							Don't want to Login ?
+							<a href="/part1" class="to_register">See Demo 1</a>
+						</p>
+        			</div>
+        		</div>
+        	</div>
+        </section>  	
+  	</div>
+  </body>
+</html>

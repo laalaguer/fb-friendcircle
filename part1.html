@@ -1,0 +1,139 @@
+<html>
+	<head>
+		<!-- <link type="text/css" rel="stylesheet" href="/stylesheets/test.css" /> -->
+		<link rel="canonical" href="{{ part1_url }}" />
+		
+		
+		<meta charset="utf-8">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+	
+    		<script src="https://maps.googleapis.com/maps/api/js?key=CHOOSE YOUR OWN KEY XIQING CHU&sensor=false&libraries=places"></script>
+
+    	<style>
+     	#map {
+       	 		height: 500px;
+       			width: 700px;
+        		border: 5px solid #333;
+     	}
+    	</style>
+
+    	<script>
+      	var map;
+	  	function initialize()
+	  	{
+	  
+	 	 	var home = new google.maps.LatLng( 60.186892,24.835056);
+        	map = new google.maps.Map(document.getElementById('map'), {
+          	mapTypeId: google.maps.MapTypeId.ROADMAP,
+          	center: home,
+          	zoom: 12
+        });
+		
+		 	kamppi_marker = new google.maps.Marker({
+          	map:map,
+          	animation: google.maps.Animation.DROP,
+          	position: home
+        });
+
+  
+      	}
+      	google.maps.event.addDomListener(window, 'load', initialize);
+    	</script>
+
+	</head>
+	
+	<body>
+		<div id="fb-root"></div>
+		<script>
+ 		 window.fbAsyncInit = function() {
+    		// init the FB JS SDK
+    FB.init({
+      appId      : 'YOUR OWN APP ID...XIQING CHU', // App ID from the App Dashboard
+      channelUrl : '//fb-friendcircle.appspot.com/channel/channel.html', // Channel File for x-domain communication
+      status     : true, // check the login status upon init?
+      cookie     : true, // set sessions cookies to allow your server to access the session?
+      xfbml      : true  // parse XFBML tags on this page?
+    });
+
+    // Additional initialization code such as adding Event Listeners goes here
+
+  };
+
+  // Load the SDK's source Asynchronously
+  // Note that the debug version is being actively developed and might 
+  // contain some type checks that are overly strict. 
+  // Please report such bugs using the bugs tool.
+  (function(d, debug){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document, /*debug*/ false));
+</script>
+	
+	
+	
+	
+		<h1>{{app|upper}}</h1>
+		<h2>Made by ...
+		{% for a in author %}
+			{{a|capitalize}}
+		{% endfor %}
+		</h2>
+		
+		<div>
+			<label>Facebook Like Button</label>
+			<a href="https://developers.facebook.com/docs/guides/web/">reference here</a>
+			
+			<div class="fb-like" data-href="http://fb-friendcircle.appspot.com/part1" data-send="true" data-width="450" data-show-faces="true"></div>
+
+        </div>
+        
+        <div>
+        	<label>Facebook Comment Area</label>
+			<a href="https://developers.facebook.com/docs/reference/plugins/comments/">reference here</a>
+			<div class="fb-comments" data-href="http://fb-friendcircle.appspot.com/part1" data-width="470" data-num-posts="10"></div>
+        
+        </div>
+        
+        <div>
+        	<label>Facebook login button</label>
+			<a href="https://developers.facebook.com/docs/concepts/login/permissions-login-dialog/">reference here</a>
+        	
+        	<!-- Log in Button -->
+  			<fb:login-button show-faces="true" width="200" max-rows="1" scope="publish_actions"></fb:login-button>
+        
+        </div>
+        
+        
+        <div>
+        	<label>Google Plus Button</label>
+            <a href="https://developers.google.com/+/web/+1button/">reference here</a>
+        
+        	<!-- Place this tag where you want the +1 button to render. -->
+			<div class="g-plusone" data-annotation="inline" data-width="300" ></div>
+
+			<!-- Place this tag after the last +1 button tag. -->
+			<script type="text/javascript">
+  				(function() {
+   	 				var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    				po.src = 'https://apis.google.com/js/plusone.js';
+    				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  				})();
+  			</script>
+  		</div>
+  
+        <div>
+        	<label>Goole Maps API</label>
+        	<a href="https://developers.google.com/maps/location-based-apps">reference here</a>
+        	<div id="map"></div>
+        	
+        	
+        	
+        </div>
+        
+        
+        
+	</body>
+</html>

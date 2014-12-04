@@ -1,0 +1,29 @@
+application: fb-friendcircle
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /(part1).*
+  script: helloworld.app
+
+- url: /photodemo
+  script: photodemo.app
+
+- url: /channel
+  static_dir: channel
+
+- url: /css
+  static_dir: css
+
+- url: /images
+  static_dir: images
+
+- url: /.*
+  script: example.app
+  secure: optional
+
+libraries:
+- name: jinja2
+  version: latest
